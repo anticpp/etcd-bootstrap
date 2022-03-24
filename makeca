@@ -1,0 +1,29 @@
+#!/bin/bash
+
+
+function makeca() {
+    dir=$1
+    cn=$2
+    echo "Creating CA at directory \"${dir}\""
+    echo "Common name(CN): ${cn}"
+
+    test -e $dir && echo "ERROR: Directory \"$dir\" already exists" && return 1
+    mkdir -pv ${dir}/newcerts
+    mkdir -pv ${dir}/private
+    touch ${dir}/index.txt ${dir}/serial
+    echo "01" > ${dir}/serial
+
+    openssl genrsa -out ${dir}/private/cakey.pem 2048
+    openssl req -new -x509 -key ${dir}/private/cakey.pem -out ${dir}/cacert.pem -subj '/CN=etcd-ca'
+}
+
+makeca "pki/CA-ETCD" "etcd-ca" || exit
+makeca "pki/CA-ETCD-PEER" "etcd-peer-ca" || exit
+
+ln -sf ${PWD}/pki/CA-ETCD /etc/pki/CA-ETCD
+ln -sf ${PWD}/pki/CA-ETCD-PEER /etc/pki/CA-ETCD-PEER 
+
+echo ""
+echo "========="
+echo "Succ"
+echo "Next: configure /etc/pki/tls/openssl.conf, add sections [CA_etcd], [CA_etcd_peer]."
