@@ -1,9 +1,8 @@
-Generate self-signed tls certificates for etcd cluster.
-
+Bootstrap the etcd cluster with secure mutual-TLS. 
 
 # TLS topology
 
-Node and ip:
+Nodes/IPs:
 
 - node0: 192.168.56.10
 - node1: 192.168.56.11
@@ -43,12 +42,6 @@ Peer-to-peer:
 			|
 		--------------
 		|	etcdctl  |
-
-```
-
-Assoicated arguments:
-
-```
 
 ```
 
