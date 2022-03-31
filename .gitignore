@@ -4,3 +4,4 @@
 *.csr
 
 pki/
+data.etcd

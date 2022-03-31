@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+function makecert() {
+	ca=$1
+	dir=$2
+	name=$3
+
+	echo ""
+	echo "Generating certificate for: ${name}"
+	echo "Using CA: \"${ca}\""
+	echo "Dir: ${dir}"
+
+	mkdir -p ${dir}
+	openssl genrsa \
+            -out ${dir}/${name}-key.pem 2048
+
+	openssl req -new \
+            -key ${dir}/${name}-key.pem \
+            -out ${dir}/${name}-csr.pem \
+            -subj "/CN=${name}" \
+            -addext "subjectAltName=DNS.1:localhost,DNS.2:${name},IP.1:127.0.0.1,IP.2:192.168.56.10,IP.3:192.168.56.11,IP.4:192.168.56.12"
+
+	openssl ca -batch \
+            -name ${ca} \
+            -in ${dir}/${name}-csr.pem \
+            -out ${dir}/${name}.pem
+}
+
+[ $# -eq 3 ] && makecert $1 $2 $3
+

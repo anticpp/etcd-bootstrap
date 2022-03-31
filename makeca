@@ -14,16 +14,8 @@ function makeca() {
     echo "01" > ${dir}/serial
 
     openssl genrsa -out ${dir}/private/cakey.pem 2048
-    openssl req -new -x509 -key ${dir}/private/cakey.pem -out ${dir}/cacert.pem -subj '/CN=etcd-ca'
+    openssl req -new -x509 -key ${dir}/private/cakey.pem -out ${dir}/cacert.pem -subj "/CN=${cn}"
 }
 
-makeca "pki/CA-ETCD" "etcd-ca" || exit
-makeca "pki/CA-ETCD-PEER" "etcd-peer-ca" || exit
+[ $# -eq 2 ] && makeca $1 $2
 
-ln -sf ${PWD}/pki/CA-ETCD /etc/pki/CA-ETCD
-ln -sf ${PWD}/pki/CA-ETCD-PEER /etc/pki/CA-ETCD-PEER 
-
-echo ""
-echo "========="
-echo "Succ"
-echo "Next: configure /etc/pki/tls/openssl.conf, add sections [CA_etcd], [CA_etcd_peer]."
