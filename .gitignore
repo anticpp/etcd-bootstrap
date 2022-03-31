@@ -1,7 +1,2 @@
-*.pem
-*.key
-*.crt
-*.csr
-
 pki/
 data.etcd
