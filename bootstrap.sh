@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## Configure the belowing items to your deploying machines.
 TOKEN=token1
 CLUSTER_STATE=new
 NAME_0=node0
@@ -8,11 +9,14 @@ NAME_2=node2
 HOST_0=192.168.56.10
 HOST_1=192.168.56.11
 HOST_2=192.168.56.12
-CLUSTER="${NAME_0}=http://${HOST_0}:2380,${NAME_1}=http://${HOST_1}:2380,${NAME_2}=http://${HOST_2}:2380"
-CLUSTER_HTTPS="${NAME_0}=https://${HOST_0}:2380,${NAME_1}=https://${HOST_1}:2380,${NAME_2}=https://${HOST_2}:2380"
 
+## On each machine, configure to your current node name and ip.
 THIS_NAME=${NAME_0}
 THIS_HOST=${HOST_0}
+
+
+CLUSTER="${NAME_0}=http://${HOST_0}:2380,${NAME_1}=http://${HOST_1}:2380,${NAME_2}=http://${HOST_2}:2380"
+CLUSTER_HTTPS="${NAME_0}=https://${HOST_0}:2380,${NAME_1}=https://${HOST_1}:2380,${NAME_2}=https://${HOST_2}:2380"
 
 ETCD_BIN=/usr/local/bin/etcd/etcd
 ETCD_ENABLE_V2=true ${ETCD_BIN} --log-level=debug --data-dir=data.etcd --name ${THIS_NAME} \

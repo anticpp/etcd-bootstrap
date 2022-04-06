@@ -16,32 +16,39 @@ Certificate signing:
 
 Associated etcd arguments:
 Client-to-etcd-cluster:
-    etcd:    --client-cert-auth, --trusted-ca-file, --cert-file, --key-file
-	etcdctl: --cacert, --cert, --key
+    etcd:    --client-cert-auth 
+             --trusted-ca-file 
+             --cert-file 
+             --key-file
+    etcdctl: --cacert
+             --cert
+             --key
 Peer-to-peer:
-	etcd:    --peer-client-cert-auth, --peer-trusted-ca-file, --peer-cert-file, --peer-key-file
+    etcd:    --peer-client-cert-auth
+             --peer-trusted-ca-file
+             --peer-cert-file
+             --peer-key-file
 =========================================
 
-
-		     	-----------------<------    	        	----------------				----------------
-		    --->|  etcd:node0   |----  |        	        |   etcd:node1 |<--- 			|  etcd:node2 |
-		    |   -----------------	|  |	         		----------------   |			---------------
-	        |		                |  |								 |     |
-	<etcd.pem>	              <etcd-peer.pem>                        <etcd-peer.pem>
-	<etcd-key.pem>	          <etcd-peer-key.pem>					 <etcd-peer-key.pem>
-	        |				        |  |								 |     |
-	        |					    |  ----------------------------------|     |
-		    |				        |-------------------------------------------
-		    |					                   Peer-to-peer
-		    |Client-to-etcd-cluster
+                -----------------<------                    ----------------                ---------------
+            --->|  etcd:node0   |----  |                    |  etcd:node1  |<---            |  etcd:node2 |
+            |   -----------------	|  |                    ----------------   |            ---------------
+            |                       |  |                                 |     |
+    <etcd.pem>	              <etcd-peer.pem>                        <etcd-peer.pem>
+    <etcd-key.pem>            <etcd-peer-key.pem>                    <etcd-peer-key.pem>
+            |                       |  |                                 |     |
+            |                       |  ----------------------------------|     |
+            |                       |-------------------------------------------
+            |					                   (Peer-to-peer)
+            |(Client-to-etcd-cluster)
+            |
+            |
+            |
+    <etcd-client.pem>
+    <etcd-client-key.pem>
 			|
-			|
-		    |
-		<etcd-client.pem>
-		<etcd-client-key.pem>
-			|
-		--------------
-		|	etcdctl  |
+     --------------
+     |	etcdctl  |
 
 ```
 
@@ -58,6 +65,7 @@ Copy these onto each node:
 
 - `pki/`
 - boostrap.sh
+- Configure `bootstrap.sh`
 
 ```
 sh bootstrap.sh
