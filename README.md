@@ -52,6 +52,11 @@ Peer-to-peer:
 
 ```
 
+# Preconfigure
+
+`makecert`: `IPs`        - Configure it to your cluster IPs
+`boot`: `DISCOVERY_HOST` - Configure it to your discovery service host
+
 # Create CA/certificatea
 
 On node0:
@@ -71,8 +76,6 @@ All certificates will be generated in directory `pki/`.
 # Start discovery service
 
 On `node0`: 
-
-Configure `boot`:`DISCOVERY_HOST` to `192.168.56.10`. Then start it:
 
 ```
 sh boot discovery
