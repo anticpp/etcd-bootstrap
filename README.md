@@ -32,7 +32,7 @@ Peer-to-peer:
 
                 -----------------<------                    ----------------                ---------------
             --->|  etcd:node0   |----  |                    |  etcd:node1  |<---            |  etcd:node2 |
-            |   -----------------	|  |                    ----------------   |            ---------------
+            |   -----------------   |  |                    ----------------   |            ---------------
             |                       |  |                                 |     |
     <etcd.pem>	              <etcd-peer.pem>                        <etcd-peer.pem>
     <etcd-key.pem>            <etcd-peer-key.pem>                    <etcd-peer-key.pem>
