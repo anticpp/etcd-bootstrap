@@ -1,12 +1,12 @@
-Bootstrap the etcd cluster with secure mutual-TLS. 
+Bootstrap an etcd cluster with `discovery protocol`, along mTLS with peer-to-peer and client-to-cluster communications.
 
-# TLS topology
+# Newtork/TLS topology
 
-Nodes/IPs:
+The workflow demostrates with 3 nodes as below:
 
-- node0: 192.168.56.10
-- node1: 192.168.56.11
-- node2: 192.168.56.12
+- node0/192.168.56.10
+- node1/192.168.56.11
+- node2/192.168.56.12
 
 ```
 =========================================
@@ -46,7 +46,7 @@ Peer-to-peer:
             |
     <etcd-client.pem>
     <etcd-client-key.pem>
-			|
+            |
      --------------
      |	etcdctl  |
 
@@ -54,24 +54,56 @@ Peer-to-peer:
 
 # Create CA/certificatea
 
-```Shell=
+On node0:
+
+```shell=
 make ca
+```
+
+And complete the `CA` configurations following instructions printed, then
+
+```Shell=
 make certs
 ```
 
-# Bootstrap
+All certificates will be generated in directory `pki/`.
 
-Copy these onto each node:
+# Start discovery service
+
+On `node0`: 
+
+Configure `boot`:`DISCOVERY_HOST` to `192.168.56.10`. Then start it:
+
+```
+sh boot discovery
+```
+
+# Create discovery TOKEN
+
+On `node0`:
+
+```
+sh boot gendscv
+```
+
+Then save the printed `UUID`, this will be used as TOKEN in the next steps.
+
+# Bootstrap etcd
+
+Copy files to node0,node1,node2:
 
 - `pki/`
-- boostrap.sh
-- Configure `bootstrap.sh`
+- boot
+
+On each node:
 
 ```
-sh bootstrap.sh
+sh boot etcd node0 192.168.56.10 <TOKEN> # node0
+sh boot etcd node1 192.168.56.11 <TOKEN> # node1
+sh boot etcd node2 192.168.56.12 <TOKEN> # node2
 ```
 
-# Test
+# Test cluster
 
 Using curl
 

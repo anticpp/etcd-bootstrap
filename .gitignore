@@ -1,2 +1,2 @@
 pki/
-data.etcd
+*.etcd/
